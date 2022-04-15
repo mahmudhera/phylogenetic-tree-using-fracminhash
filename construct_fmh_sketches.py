@@ -201,12 +201,16 @@ def test_all():
 if __name__ == "__main__":
     genome_list_filename = 'genome-list'
     sketch_directory = 'fmh_sketches'
-    ksizes = [21]
-    scale_factors = [0.001]
-    seeds = range(1)
+    ksizes = [21, 31, 51]
+    scale_factors = [0.0001, 0.001, 0.01, 0.1, 0.2, 0.25]
+    seeds = range(5)
+
+    num_runs_each_genome = len(seeds) * len(scale_factors) * len(ksizes)
 
     genome_list = read_genome_list(genome_list_filename)
     for (gname, gpath) in genome_list:
+        print('Genome: ' + gname)
+        count = 0
         for k in ksizes:
             for scale_factor in scale_factors:
                 for seed in seeds:
@@ -214,4 +218,5 @@ if __name__ == "__main__":
                     fmh = create_frac_minhash(kmers, seed, scale_factor)
                     sketch_filename = sketch_directory + '/fmh_sketch_k_' + str(k) + '_seed_' + str(seed) + '_scale_f_' + str(scale_factor) + '_genome_' + gname
                     write_fmh_sketch(fmh, sketch_filename)
-                print('Done for k=' + str(k) + ', scale_factor=' + str(scale_factor))
+                    count += 1
+                    print("Done " + str(count) + "/" + str(num_runs_each_genome))

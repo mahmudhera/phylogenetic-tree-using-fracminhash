@@ -1,0 +1,1 @@
+3e38d200b3fc04e5c26726bbb0f3ebcf  GCF_000016805.1_ASM1680v1_genomic.fna.gz

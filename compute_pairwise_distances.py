@@ -1,6 +1,11 @@
 import screed
 import subprocess
 import mmh3
+from Bio.Phylo.TreeConstruction import DistanceTreeConstructor
+from Bio.Phylo.TreeConstruction import DistanceCalculator
+from Bio.Phylo.TreeConstruction import DistanceMatrix
+from Bio import Phylo
+from matplotlib import pyplot as plt
 
 class FracMinHash:
     '''
@@ -199,17 +204,19 @@ if __name__ == "__main__":
 
     list_genomes_sketches = []
 
+    # read sketches
     genome_list = read_genome_list(genome_list_filename)
     for (gname, gpath) in genome_list:
         sketch_filename = sketch_directory + '/fmh_sketch_k_' + str(k) + '_seed_' + str(seed) + '_scale_f_' + str(scale_factor) + '_genome_' + gname
         fmh = read_fmh_sketch(sketch_filename)
         list_genomes_sketches.append( (gname, fmh) )
 
+    # write pairwise distances to file
     f = open(dist_matrix_filename, 'w')
     f.write( str(len(list_genomes_sketches)) + '\n' )
     for i in range( len(list_genomes_sketches) ):
         f.write( str(list_genomes_sketches[i][0]) + '\t' )
-        for j in range( len(list_genomes_sketches) ):
+        for j in range( i+1 ):
             if i==j:
                 distance = 0.0
             else:
@@ -221,3 +228,27 @@ if __name__ == "__main__":
             f.write(str(distance) + '\t')
         f.write('\n')
     f.close()
+
+    # construct distance matrix
+    names = [ x[0] for x in list_genomes_sketches ]
+    matrix = []
+    for i in range( len(list_genomes_sketches) ):
+        distance_list = []
+        for j in range( i+1 ):
+            if i==j:
+                distance = 0.0
+            else:
+                fmh1 = list_genomes_sketches[i][1]
+                fmh2 = list_genomes_sketches[j][1]
+                d1 = containment_to_mutation_rate(fmh1.get_containment(fmh2), k)
+                d2 = containment_to_mutation_rate(fmh2.get_containment(fmh1), k)
+                distance = (d1 + d2) / 2.0
+            distance_list.append(distance)
+        matrix.append(distance_list)
+    dm = DistanceMatrix( names=names, matrix=matrix )
+
+    # construc tree
+    constructor = DistanceTreeConstructor()
+    tree = constructor.nj(dm)
+    Phylo.draw(tree, do_show=False)
+    plt.savefig('phylogenetic_tree.pdf')

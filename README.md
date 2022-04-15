@@ -10,3 +10,7 @@ Steps:
       Open all genomes
       Then, construct fmh sketches for a bunch of different seeds (1 - 100)
 1. After these, write code that will read genome list, seeds, and output pairwise distances using fmh
+
+
+Tree building method that takes into consideration uncertainties
+Look into bootstrapping techniques
