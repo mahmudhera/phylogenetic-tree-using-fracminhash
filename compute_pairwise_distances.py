@@ -195,6 +195,7 @@ if __name__ == "__main__":
     k = 21
     scale_factor = 0.001
     seed = 0
+    dist_matrix_filename = 'pairwise_dist_matrix'
 
     list_genomes_sketches = []
 
@@ -204,9 +205,10 @@ if __name__ == "__main__":
         fmh = read_fmh_sketch(sketch_filename)
         list_genomes_sketches.append( (gname, fmh) )
 
-    print( len(list_genomes_sketches) )
+    f = open(dist_matrix_filename, 'w')
+    f.write( str(len(list_genomes_sketches)) + '\n' )
     for i in range( len(list_genomes_sketches) ):
-        print( list_genomes_sketches[i][0], end='\t' )
+        f.write( str(list_genomes_sketches[i][0]) + '\t' )
         for j in range( len(list_genomes_sketches) ):
             if i==j:
                 distance = 0.0
@@ -216,5 +218,6 @@ if __name__ == "__main__":
                 d1 = containment_to_mutation_rate(fmh1.get_containment(fmh2), k)
                 d2 = containment_to_mutation_rate(fmh2.get_containment(fmh1), k)
                 distance = (d1 + d2) / 2.0
-            print(distance, end='\t')
-        print('')
+            f.write(str(distance) + '\t')
+        f.write('\n')
+    f.close()
