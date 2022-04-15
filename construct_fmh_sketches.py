@@ -8,7 +8,7 @@ class FracMinHash:
     '''
     def __init__(self, scale_factor, max_hash_value, initial_set=None):
         '''
-        Create an FMH with given scale_facor in (0,1), largest hash value H.
+        Create an FMH with given scale_factor in (0,1), largest hash value H.
         If initial_set is provided, that needs to be constructed as a set(),
         and must only contain integers in [0,H)
         Returns: None
@@ -80,13 +80,13 @@ def get_hash_from_kmer(kmer, seed=0):
         hash_value += 2**64
     return hash_value
 
-def create_frac_minhash(kmers, seed, scale_facor):
+def create_frac_minhash(kmers, seed, scale_factor):
     '''
     Given a list of kmers, generate the frac minhash sketch of those kmers.
     Returns: the sketch, an object of FracMinHash
     '''
     H = 2**64
-    smh1 = FracMinHash(scale_facor, H)
+    smh1 = FracMinHash(scale_factor, H)
     for kmer in kmers:
         h = get_hash_from_kmer(kmer, seed)
         smh1.add_value(h)
@@ -133,7 +133,7 @@ def build_kmers(sequence, ksize):
         kmers.append(kmer)
     return kmers
 
-def get_kmers_in_file_using_screed(filename, k=21):
+def get_kmers_in_file_using_screed(filename, ksize=21):
     '''
     Given a filename and value of k, read all the kmers in the file and return as a list
     Returns: list - all kmers in file. Upper letters. N and R characters are skipped.
@@ -145,14 +145,73 @@ def get_kmers_in_file_using_screed(filename, k=21):
         all_kmers += kmers
     return all_kmers
 
-if __name__ == "__main__":
-    seq1 = 'acgtgcgcgtgatgc'
-    seq2 = 'acgttcgcgtgatgc'
-    kmers1 = build_kmers(seq1, 2)
-    kmers2 = build_kmers(seq2, 2)
-    fmh1 = create_frac_minhash(kmers1, 1, 1.0)
-    print(fmh1.hash_set)
-    fmh2 = create_frac_minhash(kmers2, 1, 1.0)
+def read_genome_list(genome_list_filename):
+    f = open(genome_list_filename, 'r')
+    lines = f.readlines()
+    num_genomes = int(lines[0].strip())
+    genome_list = []
+    for i in range(num_genomes):
+        genome_name = lines[1 + i*2].strip()
+        genome_path = lines[2 + i*2].strip()
+        genome_list.append( (genome_name, genome_path) )
+    f.close()
+    return genome_list
+
+def write_fmh_sketch(fmh, filename):
+    '''
+    Arguemnts: Object of type FracMinHash, and a filename
+    Writes the hash values to that file
+    Return None
+    '''
+    f = open(filename, 'w')
+    f.write(str(fmh.scale_factor) + '\n')
+    f.write(str(fmh.H) + '\n')
+    for hash_value in fmh.hash_set:
+        f.write(str(hash_value) + '\n')
+    f.close()
+
+def read_fmh_sketch(filename):
+    '''
+    Arguemnts: A filename
+    Reads the hash values from that file
+    Returs: an object of type FracMinHash
+    '''
+    hash_set = set()
+    f = open(filename, 'r')
+    lines = f.readlines()
+    scale_factor = float( lines[0].strip() )
+    max_hash_value = float( lines[1].strip() )
+    for i in range(2, len(lines)):
+        line = lines[i]
+        hash_set.add( int( line.strip() ) )
+    return FracMinHash(scale_factor, max_hash_value, hash_set)
+
+def test_all():
+    genome_name = 'test-genome/test_genome.fna'
+    kmers = get_kmers_in_file_using_screed(genome_name, 21)
+    print(len(kmers))
+    fmh = create_frac_minhash(kmers, 0, 0.1)
+    print(fmh.hash_set)
+    write_fmh_sketch(fmh, 'test-genome/fmh-sketch1')
+    fmh2 = read_fmh_sketch('test-genome/fmh-sketch1')
     print(fmh2.hash_set)
-    print( fmh1.get_containment(fmh2) )
-    print( fmh2.get_containment(fmh1) )
+    print(fmh.hash_set.issubset( fmh2.hash_set ))
+    print(fmh2.hash_set.issubset( fmh.hash_set ))
+
+if __name__ == "__main__":
+    genome_list_filename = 'genome-list'
+    sketch_directory = 'fmh_sketches'
+    ksizes = [21]
+    scale_factors = [0.001]
+    seeds = range(1)
+
+    genome_list = read_genome_list(genome_list_filename)
+    for (gname, gpath) in genome_list:
+        for k in ksizes:
+            for scale_factor in scale_factors:
+                for seed in seeds:
+                    kmers = get_kmers_in_file_using_screed(gpath, k)
+                    fmh = create_frac_minhash(kmers, seed, scale_factor)
+                    sketch_filename = sketch_directory + '/fmh_sketch_k_' + str(k) + '_seed_' + str(seed) + '_scale_f_' + str(scale_factor) + '_genome_' + gname
+                    write_fmh_sketch(fmh, sketch_filename)
+                print('Done for k=' + str(k) + ', scale_factor=' + str(scale_factor))
