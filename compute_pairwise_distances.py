@@ -203,10 +203,10 @@ def containment_to_mutation_rate(containment, ksize):
     return 1.0 - (1.0*containment) ** (1.0/ksize)
 
 if __name__ == "__main__":
-    genome_list_filename = 'genome-list'
+    genome_list_filename = 'genome-list-primates'
     sketch_directory = 'fmh_sketches'
     k = 21
-    scale_factor = 0.0001
+    scale_factor = 0.00001
     seed = 0
     dist_matrix_filename = 'pairwise_dist_matrix'
 
@@ -215,7 +215,7 @@ if __name__ == "__main__":
     # read sketches
     genome_list = read_genome_list(genome_list_filename)
     for (gname, gpath) in genome_list:
-        sketch_filename = sketch_directory + '/fmh_sketch_k_' + str(k) + '_scale_f_' + str(scale_factor) + '_genome_' + gname
+        sketch_filename = sketch_directory + '/fmh_sketch_k_' + str(k) + '_scale_f_' + str(scale_factor) + '_seed_' + str(seed) + '_genome_' + gname
         fmh = read_sourmash_sketch(sketch_filename, scale_factor)
         list_genomes_sketches.append( (gname, fmh) )
 
@@ -251,6 +251,7 @@ if __name__ == "__main__":
                 d1 = containment_to_mutation_rate(fmh1.get_containment(fmh2), k)
                 d2 = containment_to_mutation_rate(fmh2.get_containment(fmh1), k)
                 distance = (d1 + d2) / 2.0
+                #distance = d2
             distance_list.append(distance)
         matrix.append(distance_list)
     dm = DistanceMatrix( names=names, matrix=matrix )
