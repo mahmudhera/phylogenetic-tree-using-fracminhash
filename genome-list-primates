@@ -3,3 +3,7 @@ Gray mouse lemur
 gray-mouse-lemur/ncbi-genomes-2022-04-15/GCF_000165445.2_Mmur_3.0_genomic.fna
 Humans
 homo-sapiens/ncbi-genomes-2022-04-18/GCF_000001405.40_GRCh38.p14_genomic.fna
+Chimpanzee
+chimpanzee/ncbi-genomes-2022-04-18/GCF_002880755.1_Clint_PTRv2_genomic.fna
+Bonobo
+bonobo/ncbi-genomes-2022-04-18/GCA_013052645.3_Mhudiblu_PPA_v2_genomic.fna

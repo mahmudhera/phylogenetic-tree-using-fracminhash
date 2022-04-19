@@ -206,7 +206,7 @@ if __name__ == "__main__":
     genome_list_filename = 'genome-list'
     sketch_directory = 'fmh_sketches'
     k = 21
-    scale_factor = 0.001
+    scale_factor = 0.0001
     seed = 0
     dist_matrix_filename = 'pairwise_dist_matrix'
 
@@ -257,6 +257,6 @@ if __name__ == "__main__":
 
     # construc tree
     constructor = DistanceTreeConstructor()
-    tree = constructor.nj(dm)
+    tree = constructor.upgma(dm)
     Phylo.draw(tree, do_show=False)
     plt.savefig('phylogenetic_tree.pdf')
