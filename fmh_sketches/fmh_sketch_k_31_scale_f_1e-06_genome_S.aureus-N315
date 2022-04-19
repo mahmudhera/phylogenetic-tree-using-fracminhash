@@ -1,0 +1,1 @@
+[{"class":"sourmash_signature","email":"","hash_function":"0.murmur64","filename":"s-aureus-n315/GCF_000009645.1_ASM964v1_genomic.fna","license":"CC0","signatures":[{"num":0,"ksize":31,"seed":42,"max_hash":18446744073709,"mins":[16181053012746,16425678327999],"md5sum":"496ac72a063edf728c423fe67b18c41f","molecule":"dna"}],"version":0.4}]

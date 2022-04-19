@@ -1,0 +1,1 @@
+[{"class":"sourmash_signature","email":"","hash_function":"0.murmur64","filename":"./s-aureus-newman/GCF_020985245.1_ASM2098524v1_genomic.fna","license":"CC0","signatures":[{"num":0,"ksize":31,"seed":42,"max_hash":18446744073709,"mins":[16181053012746],"md5sum":"ef13203a11161ff262d377c12761f0c5","molecule":"dna"}],"version":0.4}]
