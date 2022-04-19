@@ -200,7 +200,7 @@ def test_all():
     print(fmh2.hash_set.issubset( fmh.hash_set ))
 
 if __name__ == "__main__":
-    genome_list_filename = 'genome-list-primates'
+    genome_list_filename = 'genome-list'
     sketch_directory = 'fmh_sketches'
     ksizes = [21, 31, 51]
     scale_factors = [0.000001, 0.00001, 0.0001, 0.001]
@@ -213,6 +213,6 @@ if __name__ == "__main__":
             for scale_factor in scale_factors:
                 scale = int(1.0/scale_factor)
                 sketch_filename = sketch_directory + '/fmh_sketch_k_' + str(k) + '_scale_f_' + str(scale_factor) + '_genome_' + gname
-                cmd = 'sourmash compute -k '+ str(k) + ' --scaled ' + str(scale) + ' -o ' + sketch_filename
+                cmd = 'sourmash compute -k '+ str(k) + ' --scaled ' + str(scale) + ' -o \'' + sketch_filename + '\''
                 subprocess.call(cmd.split(' '))
         print("Done")
