@@ -6,6 +6,7 @@ from Bio.Phylo.TreeConstruction import DistanceCalculator
 from Bio.Phylo.TreeConstruction import DistanceMatrix
 from Bio import Phylo
 from matplotlib import pyplot as plt
+import json
 
 class FracMinHash:
     '''
@@ -191,6 +192,11 @@ def read_fmh_sketch(filename):
         hash_set.add( int( line.strip() ) )
     return FracMinHash(scale_factor, max_hash_value, hash_set)
 
+def read_sourmash_sketch(fname):
+    f = open(fname, 'r')
+    data = json.reads(f.read())
+    return data[0]['signatures'][0]['mins']
+
 def containment_to_mutation_rate(containment, ksize):
     return 1.0 - (1.0*containment) ** (1.0/ksize)
 
@@ -207,8 +213,8 @@ if __name__ == "__main__":
     # read sketches
     genome_list = read_genome_list(genome_list_filename)
     for (gname, gpath) in genome_list:
-        sketch_filename = sketch_directory + '/fmh_sketch_k_' + str(k) + '_seed_' + str(seed) + '_scale_f_' + str(scale_factor) + '_genome_' + gname
-        fmh = read_fmh_sketch(sketch_filename)
+        sketch_filename = sketch_directory + '/fmh_sketch_k_' + str(k) + '_scale_f_' + str(scale_factor) + '_genome_' + gname
+        fmh = read_sourmash_sketch(sketch_filename)
         list_genomes_sketches.append( (gname, fmh) )
 
     # write pairwise distances to file
