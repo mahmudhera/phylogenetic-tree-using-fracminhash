@@ -214,4 +214,5 @@ if __name__ == "__main__":
                 scale = int(1.0/scale_factor)
                 sketch_filename = sketch_directory + '/fmh_sketch_k_' + str(k) + '_scale_f_' + str(scale_factor) + '_genome_' + gname
                 cmd = 'sourmash compute -k '+ str(k) + ' --scaled ' + str(scale) + ' -o ' + sketch_filename
+                subprocess.call(cmd.split(' '))
         print("Done")
