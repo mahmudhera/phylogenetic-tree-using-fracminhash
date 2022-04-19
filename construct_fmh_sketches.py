@@ -200,7 +200,7 @@ def test_all():
     print(fmh2.hash_set.issubset( fmh.hash_set ))
 
 if __name__ == "__main__":
-    genome_list_filename = 'genome-list'
+    genome_list_filename = 'genome-list-primates'
     sketch_directory = 'fmh_sketches'
     ksizes = [21, 31, 51]
     scale_factors = [0.000001, 0.00001, 0.0001]
