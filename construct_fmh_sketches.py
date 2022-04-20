@@ -207,6 +207,12 @@ if __name__ == "__main__":
     seeds = range(2)
 
     genome_list = read_genome_list(genome_list_filename)
+
+    for (gname, gpath) in genome_list:
+        f = open(gpath, 'r')
+        print("File valid!")
+        f.close()
+
     for (gname, gpath) in genome_list:
         print('Genome: ' + gname)
         count = 0
