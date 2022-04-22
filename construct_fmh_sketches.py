@@ -203,7 +203,7 @@ if __name__ == "__main__":
     genome_list_filename = 'genome-list-primates'
     sketch_directory = 'fmh_sketches'
     ksizes = [21, 31, 51]
-    scale_factors = [0.000001, 0.00001, 0.0001, 0.001]
+    scale_factors = [0.000001, 0.00001]
     seeds = range(2)
 
     genome_list = read_genome_list(genome_list_filename)
