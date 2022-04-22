@@ -211,9 +211,9 @@ def containment_to_mutation_rate(containment, ksize):
 if __name__ == "__main__":
     genome_list_filename = 'genome-list-primates'
     sketch_directory = 'fmh_sketches'
-    k = 21
+    k = 51
     scale_factor = 1.0e-6
-    seed = 1
+    seed = 0
     dist_matrix_filename = 'pairwise_dist_matrix'
 
     list_genomes_sketches = []
@@ -265,7 +265,7 @@ if __name__ == "__main__":
     # construc tree
     constructor = DistanceTreeConstructor()
     tree = constructor.upgma(dm)
-    print(tree.find_clades())
+    tree.ladderize()
     for clade in tree.find_clades():
         if "Inner" in clade.name:
             clade.name = ''
@@ -273,5 +273,5 @@ if __name__ == "__main__":
     fig, ax = plt.subplots()
     ax.axis("off")
     Phylo.draw(tree, do_show=False)
-    plt.xlim(0.0, 0.16)
+    plt.xlim(-0.02, 0.2)
     plt.savefig('phylogenetic_tree.pdf')
