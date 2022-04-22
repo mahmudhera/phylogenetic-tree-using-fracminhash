@@ -7,6 +7,12 @@ from Bio.Phylo.TreeConstruction import DistanceMatrix
 from Bio import Phylo
 from matplotlib import pyplot as plt
 import json
+import matplotlib
+
+font = {'family' : 'courier',
+        'size'   : 8}
+
+matplotlib.rc('font', **font)
 
 class FracMinHash:
     '''
@@ -206,8 +212,8 @@ if __name__ == "__main__":
     genome_list_filename = 'genome-list-primates'
     sketch_directory = 'fmh_sketches'
     k = 21
-    scale_factor = 0.0001
-    seed = 0
+    scale_factor = 1.0e-6
+    seed = 1
     dist_matrix_filename = 'pairwise_dist_matrix'
 
     list_genomes_sketches = []
@@ -238,7 +244,7 @@ if __name__ == "__main__":
     f.close()
 
     # construct distance matrix
-    names = [ x[0] for x in list_genomes_sketches ]
+    names = [ x[0].replace('-', ' ') for x in list_genomes_sketches ]
     matrix = []
     for i in range( len(list_genomes_sketches) ):
         distance_list = []
@@ -259,6 +265,13 @@ if __name__ == "__main__":
     # construc tree
     constructor = DistanceTreeConstructor()
     tree = constructor.upgma(dm)
+    print(tree.find_clades())
+    for clade in tree.find_clades():
+        if "Inner" in clade.name:
+            clade.name = ''
     tree.ladderize()
+    fig, ax = plt.subplots()
+    ax.axis("off")
     Phylo.draw(tree, do_show=False)
+    plt.xlim(0.0, 0.16)
     plt.savefig('phylogenetic_tree.pdf')

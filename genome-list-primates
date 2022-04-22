@@ -1,4 +1,14 @@
-12
+5
+Northern-treeshrew
+treeshrew/ncbi-genomes-2022-04-22/GCA_000181375.1_ASM18137v1_genomic.fna
+House-mouse
+mouse/ncbi-genomes-2022-04-22/GCF_000001635.27_GRCm39_genomic.fna
+Brown-rat
+rat/ncbi-genomes-2022-04-22/GCA_000001895.4_Rnor_6.0_genomic.fna
+Guinea-pig
+guinea-pig/ncbi-genomes-2022-04-22/GCF_000151735.1_Cavpor3.0_genomic.fna
+European-rabbit
+rabbit/ncbi-genomes-2022-04-22/GCF_000003625.3_OryCun2.0_genomic.fna
 Orangutan
 orangutan/ncbi-genomes-2022-04-19/GCA_000001545.3_P_pygmaeus_2.0.2_genomic.fna
 Gibbon
