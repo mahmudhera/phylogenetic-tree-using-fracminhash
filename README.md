@@ -16,4 +16,13 @@ Tree building method that takes into consideration uncertainties
 Look into bootstrapping techniques
 
 
-Robensen-Folds distance 
+Robensen-Folds distance
+
+
+Add more bacterial genomes
+Start with a known Phylo tree based off of 16S
+GTDB te start korbo??
+
+copy, WABI format
+
+check bootstrapping values. sample dist matrix a lot of times. each time see if tree branches change or not
