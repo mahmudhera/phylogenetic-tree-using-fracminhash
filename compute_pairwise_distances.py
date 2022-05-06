@@ -264,14 +264,16 @@ if __name__ == "__main__":
 
     # construc tree
     constructor = DistanceTreeConstructor()
-    tree = constructor.upgma(dm)
-    tree.ladderize()
+    tree = constructor.nj(dm)
+    tree.root_with_outgroup({"name": "Jam"})
+    tree.collapse('Jam')
+
     for clade in tree.find_clades():
-        if "Inner" in clade.name:
+        if clade.name is not None and "Inner" in clade.name:
             clade.name = ''
     tree.ladderize()
     fig, ax = plt.subplots()
     ax.axis("off")
     Phylo.draw(tree, do_show=False)
-    plt.xlim(-0.02, 0.2)
+    plt.xlim(0.8, 1.2)
     plt.savefig('phylogenetic_tree.pdf')
