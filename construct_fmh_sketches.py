@@ -202,9 +202,9 @@ def test_all():
 if __name__ == "__main__":
     genome_list_filename = 'genome-list-bacteria'
     sketch_directory = 'fmh_sketches_bacteria'
-    ksizes = [21, 31, 51]
+    ksizes = [21, 31]
     scale_factors = [0.001, 0.01, 0.1]
-    seeds = range(3)
+    seeds = range(1)
 
     genome_list = read_genome_list(genome_list_filename)
 
