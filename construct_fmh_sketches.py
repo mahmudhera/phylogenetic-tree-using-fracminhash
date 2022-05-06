@@ -213,6 +213,8 @@ if __name__ == "__main__":
         print("File valid!")
         f.close()
 
+    subprocess.call(['mkdir', sketch_directory])
+
     for (gname, gpath) in genome_list:
         print('Genome: ' + gname)
         count = 0
