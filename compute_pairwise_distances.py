@@ -209,10 +209,10 @@ def containment_to_mutation_rate(containment, ksize):
     return 1.0 - (1.0*containment) ** (1.0/ksize)
 
 if __name__ == "__main__":
-    genome_list_filename = 'genome-list-primates'
-    sketch_directory = 'fmh_sketches'
-    k = 51
-    scale_factor = 1.0e-6
+    genome_list_filename = 'genome-list-bacteria'
+    sketch_directory = 'fmh_sketches_bacteria'
+    k = 21
+    scale_factor = 1.0e-4
     seed = 0
     dist_matrix_filename = 'pairwise_dist_matrix'
 
@@ -262,11 +262,13 @@ if __name__ == "__main__":
         matrix.append(distance_list)
     dm = DistanceMatrix( names=names, matrix=matrix )
 
+    print(dm)
+
     # construc tree
     constructor = DistanceTreeConstructor()
     tree = constructor.nj(dm)
-    tree.root_with_outgroup({"name": "Jam"})
-    tree.collapse('Jam')
+    #tree.root_with_outgroup({"name": "Jam"})
+    #tree.collapse('Jam')
 
     for clade in tree.find_clades():
         if clade.name is not None and "Inner" in clade.name:
@@ -275,5 +277,5 @@ if __name__ == "__main__":
     fig, ax = plt.subplots()
     ax.axis("off")
     Phylo.draw(tree, do_show=False)
-    plt.xlim(0.8, 1.2)
+    #plt.xlim(0.8, 1.2)
     plt.savefig('phylogenetic_tree.pdf')
