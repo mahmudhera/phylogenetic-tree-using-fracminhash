@@ -226,45 +226,6 @@ if __name__ == "__main__":
         fmh = read_sourmash_sketch(sketch_filename, scale_factor)
         list_genomes_sketches.append( (gname, fmh) )
 
-    # write pairwise distances to file
-    f = open(dist_matrix_filename, 'w')
-    f.write( str(len(list_genomes_sketches)) + '\n' )
-    for i in range( len(list_genomes_sketches) ):
-        f.write( str(list_genomes_sketches[i][0]) + '\t' )
-        for j in range( i+1 ):
-            if i==j:
-                distance = 0.0
-            else:
-                fmh1 = list_genomes_sketches[i][1]
-                fmh2 = list_genomes_sketches[j][1]
-                d1 = containment_to_mutation_rate(fmh1.get_containment(fmh2), k)
-                d2 = containment_to_mutation_rate(fmh2.get_containment(fmh1), k)
-                distance = (d1 + d2) / 2.0
-            f.write(str(distance) + '\t')
-        f.write('\n')
-    f.close()
-
-    # construct distance matrix
-    names = [ x[0].replace('-', ' ') for x in list_genomes_sketches ]
-    matrix = []
-    for i in range( len(list_genomes_sketches) ):
-        distance_list = []
-        for j in range( i+1 ):
-            if i==j:
-                distance = 0.0
-            else:
-                fmh1 = list_genomes_sketches[i][1]
-                fmh2 = list_genomes_sketches[j][1]
-                d1 = containment_to_mutation_rate(fmh1.get_containment(fmh2), k)
-                d2 = containment_to_mutation_rate(fmh2.get_containment(fmh1), k)
-                distance = (d1 + d2) / 2.0
-                #distance = d2
-            distance_list.append(distance)
-        matrix.append(distance_list)
-    dm = DistanceMatrix( names=names, matrix=matrix )
-
-    print(dm)
-
     raw_matrix = []
     for i in range( len(list_genomes_sketches) ):
         distance_list = []
@@ -280,20 +241,19 @@ if __name__ == "__main__":
                 #distance = d2
             distance_list.append(distance)
         raw_matrix.append(distance_list)
-    raw_matrix = np.array(raw_matrix)
-    print(raw_matrix)
+    matrix_fmh = np.array(raw_matrix)
+    np.set_printoptions(precision=4)
+    print(matrix_fmh)
 
-    # construc tree
-    constructor = DistanceTreeConstructor()
-    tree = constructor.nj(dm)
-    #tree.root_with_outgroup({"name": "Jam"})
-    #tree.collapse('Jam')
+    tree = Phylo.read("bac120_r207.tree", "newick")
+    leaf_nodes = ['RS_GCF_016405145.1', 'RS_GCF_001746855.1', 'GB_GCA_017934115.1', 'RS_GCF_015240065.1', 'GB_GCA_009784895.1', 'RS_GCF_003003235.1', 'RS_GCF_014204945.1', 'GB_GCA_015711725.1', 'GB_GCA_018435605.1']
 
-    for clade in tree.find_clades():
-        if clade.name is not None and "Inner" in clade.name:
-            clade.name = ''
-    fig, ax = plt.subplots()
-    ax.axis("off")
-    Phylo.draw(tree, do_show=False)
-    #plt.xlim(0.8, 1.2)
-    plt.savefig('phylogenetic_tree.pdf')
+    matrix = []
+    for i in range(len(leaf_nodes)):
+        distance_list = []
+        for j in range(len(leaf_nodes)):
+            distance_list.append( tree.distance(leaf_nodes[i], leaf_nodes[j]) )
+        matrix.append(distance_list)
+    matrix_gtdb = np.array(matrix)
+
+    print(matrix_gtdb)
