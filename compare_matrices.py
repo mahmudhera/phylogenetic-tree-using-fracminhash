@@ -84,7 +84,7 @@ for _, gpath in genome_list:
 subprocess.call(sketch_command, shell=True)
 # Then run sourmash compare with ANI
 save_prefix = 'sourmash_compare_ANI'
-compare_ANI_command = f"sourmash compare -k 21 --ani -o {save_prefix}.cmp "
+compare_ANI_command = f"sourmash compare -k 21 --ani --avg-containment -o {save_prefix}.cmp "
 for _, gpath in genome_list:
     sig_path = os.path.join(sketch_dir, gpath.split('/')[-1]) + '.sig'
     compare_ANI_command += sig_path + ' '
