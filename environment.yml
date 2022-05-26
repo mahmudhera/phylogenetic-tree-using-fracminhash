@@ -1,0 +1,14 @@
+name: phylo-ani
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - sourmash=4.4
+  - biopython
+  - mmh3
+  # temporary: install sourmash 'latest' branch to get `--avg-containment`
+  - rust
+  - pip
+  - pip:
+    - git+https://github.com/sourmash-bio/sourmash@latest
