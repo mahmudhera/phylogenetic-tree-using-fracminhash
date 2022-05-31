@@ -78,7 +78,7 @@ for mat_type in ["distance", "ANI", "containment"]:
 sketch_dir = os.path.join(out_dir, 'sourmash_sketches_bacteria')
 os.makedirs(sketch_dir, exist_ok=True)
 # Build the sketches
-sketch_command = f"sourmash compute -k 21 --scale 10 --output-dir --seed {seed} {sketch_dir} "
+sketch_command = f"sourmash compute -k 21 -f --scale 10 --seed {seed} --output-dir {sketch_dir} "
 for _, gpath in genome_list:
     sketch_command += gpath + ' '
 subprocess.call(sketch_command, shell=True)
