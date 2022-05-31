@@ -204,7 +204,7 @@ if __name__ == "__main__":
     sketch_directory = 'fmh_sketches_bacteria'
     ksizes = [21, 31]
     scale_factors = [0.001, 0.01, 0.1]
-    seeds = range(1)
+    seeds = range(2)
 
     genome_list = read_genome_list(genome_list_filename)
 
