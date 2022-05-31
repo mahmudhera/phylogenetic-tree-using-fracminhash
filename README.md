@@ -26,3 +26,8 @@ GTDB te start korbo??
 copy, WABI format
 
 check bootstrapping values. sample dist matrix a lot of times. each time see if tree branches change or not
+
+
+PCOA -- compare the two dist matrices -- MDS -- multi dimensional scaling
+
+take the organisms -- do MSA -- get pairwide evo dist
