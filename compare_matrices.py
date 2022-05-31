@@ -136,3 +136,5 @@ np.save(os.path.join(out_dir, "tessa_containment_matrix"), tessa_containment_mat
 print(f"Mahmudur ANI: {mrh_ANI_matrix}")
 print(f"Sourmash compare ANI: {sm_compare_ANI_matrix}")
 print(f"Tessa ANI: {tessa_ANI_matrix}")
+
+print(f"Differences of Mahmudur ANI and Sourmash compare ANI: {mrh_ANI_matrix-sm_compare_ANI_matrix}")
