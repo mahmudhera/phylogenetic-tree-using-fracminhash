@@ -79,7 +79,7 @@ sketch_dir = os.path.join(out_dir, 'sourmash_sketches_bacteria')
 os.makedirs(sketch_dir, exist_ok=True)
 # Build the sketches
 seed = 2
-sketch_command = f"sourmash compute -k 21 -f --scale 10 --seed {seed} --output-dir {sketch_dir} "
+sketch_command = f"sourmash compute -k 21 --scale 10 --seed {seed} --output-dir {sketch_dir} "
 for _, gpath in genome_list:
     sketch_command += gpath + ' '
 subprocess.call(sketch_command, shell=True)
@@ -139,7 +139,7 @@ print(f"Sourmash compare ANI: {sm_compare_ANI_matrix}")
 print(f"Tessa ANI: {tessa_ANI_matrix}")
 
 difference_ANI_mat = np.absolute(mrh_ANI_matrix-sm_compare_ANI_matrix)
-print(f"Differences of Mahmudur ANI and Sourmash compare ANI:\n{difference_mat}")
+print(f"Differences of Mahmudur ANI and Sourmash compare ANI:\n{difference_ANI_mat}")
 
 relative_ANI_difference_w_sm_mat = np.divide(difference_ANI_mat, sm_compare_ANI_matrix)
 relative_ANI_difference_w_MRH_mat = np.divide(difference_ANI_mat, mrh_ANI_matrix)
