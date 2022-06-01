@@ -138,4 +138,11 @@ print(f"Mahmudur ANI: {mrh_ANI_matrix}")
 print(f"Sourmash compare ANI: {sm_compare_ANI_matrix}")
 print(f"Tessa ANI: {tessa_ANI_matrix}")
 
-print(f"Differences of Mahmudur ANI and Sourmash compare ANI: {mrh_ANI_matrix-sm_compare_ANI_matrix}")
+difference_ANI_mat = np.absolute(mrh_ANI_matrix-sm_compare_ANI_matrix)
+print(f"Differences of Mahmudur ANI and Sourmash compare ANI:\n{difference_mat}")
+
+relative_ANI_difference_w_sm_mat = np.divide(difference_ANI_mat, sm_compare_ANI_matrix)
+relative_ANI_difference_w_MRH_mat = np.divide(difference_ANI_mat, mrh_ANI_matrix)
+
+print(f"Relative differences of Mahmudur ANI and Sourmash compare ANI w.r.t MRH ANI:\n{relative_ANI_difference_w_MRH_mat}")
+print(f"Relative differences of Mahmudur ANI and Sourmash compare ANI w.r.t sourmash ANI:\n{relative_ANI_difference_w_sm_mat}")
