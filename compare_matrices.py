@@ -145,4 +145,6 @@ relative_ANI_difference_w_sm_mat = np.divide(difference_ANI_mat, sm_compare_ANI_
 relative_ANI_difference_w_MRH_mat = np.divide(difference_ANI_mat, mrh_ANI_matrix)
 
 print(f"Relative differences of Mahmudur ANI and Sourmash compare ANI w.r.t MRH ANI:\n{relative_ANI_difference_w_MRH_mat}")
+print(f"Largest % error: {np.amax(relative_ANI_difference_w_MRH_mat)*100}")
 print(f"Relative differences of Mahmudur ANI and Sourmash compare ANI w.r.t sourmash ANI:\n{relative_ANI_difference_w_sm_mat}")
+print(f"Largest % error: {np.amax(relative_ANI_difference_w_sm_mat)*100}")
